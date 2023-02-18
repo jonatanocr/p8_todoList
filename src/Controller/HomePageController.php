@@ -1,0 +1,17 @@
+<?php
+// src/Controller/LuckyController.php
+namespace App\Controller;
+
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+
+class HomePageController
+{
+    #[Route('/')]
+    public function hello(): Response
+    {
+        return new Response(
+            '<html><body>Hello World</body></html>'
+        );
+    }
+}
