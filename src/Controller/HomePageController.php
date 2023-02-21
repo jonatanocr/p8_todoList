@@ -1,17 +1,17 @@
 <?php
-// src/Controller/LuckyController.php
 namespace App\Controller;
 
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class HomePageController
+class HomePageController extends AbstractController
 {
     #[Route('/')]
-    public function hello(): Response
+    public function index(): Response
     {
-        return new Response(
-            '<html><body>Hello World</body></html>'
-        );
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        return $this->render('homepage/index.html.twig');
     }
+
 }
