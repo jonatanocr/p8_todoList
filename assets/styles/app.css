@@ -48,7 +48,6 @@ input:focus {
     justify-content: end;
 }
 
-#delete_user_div {
-    margin-top: 3em;
-    text-align: center;
+#delete_account_btn {
+    width: 10em;
 }
