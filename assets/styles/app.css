@@ -1,0 +1,54 @@
+body, body * {
+    font-family: 'Roboto', sans-serif !important;
+    color: rgb(61,43,31);
+}
+
+.navbar-title {
+    color: rgb(31, 147, 185);
+    padding-left: 2em;
+}
+
+.bold-txt {
+    font-weight:700;
+}
+
+.bold-txt-med {
+    font-weight:500;
+}
+
+.btn-success, .btn-success:hover, .btn-success:active, .btn-success:visited {
+    background-color: rgb(24, 161, 24) !important;
+}
+
+.btn {
+    font-size: 0.9em !important;
+}
+
+h1 {
+	margin-left:2%;
+}
+
+input {
+    border: 1px solid rgb(219, 209, 209);
+    border-radius: 4px;
+}
+
+input:focus {
+    outline: none !important;
+    border:1px solid lightblue;
+    box-shadow: 0 0 5px #719ECE;
+}
+
+.register_input {
+    width: 90%;
+}
+
+#register_submit_div {
+    width: 90%;
+    justify-content: end;
+}
+
+#delete_user_div {
+    margin-top: 3em;
+    text-align: center;
+}

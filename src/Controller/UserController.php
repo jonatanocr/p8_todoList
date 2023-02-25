@@ -68,7 +68,7 @@ class UserController extends AbstractController
         }
 
         return $this->render('user/update.html.twig', [
-            'form' => $form,
+            'updateUserForm' => $form,
         ]);
     }
 
