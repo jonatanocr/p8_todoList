@@ -75,6 +75,7 @@ class UserController extends AbstractController
         return $this->render('user/update.html.twig', [
             'updateUserForm' => $form, 
             'formOptions' => $formOptions,
+            'userToUpdate' => $user,
         ]);
     }
 
@@ -102,6 +103,7 @@ class UserController extends AbstractController
         return $this->render('user/update.html.twig', [
             'updateUserForm' => $form,
             'formOptions' => $formOptions,
+            'userToUpdate' => $user,
         ]);
     }
 
@@ -117,5 +119,15 @@ class UserController extends AbstractController
         $entityManager->flush();
         return $this->redirectToRoute('app_login');
 
+    }
+
+    #[Route('/user/list', name: 'list_user')]
+    public function list(ManagerRegistry $doctrine): Response
+    {
+        $entityManager = $doctrine->getManager();
+        $users = $entityManager->getRepository(User::class)->findAll();
+        return $this->render('user/users.list.html.twig', [
+            'users' => $users,
+        ]);
     }
 }

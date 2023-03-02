@@ -1,12 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Update user{% endblock %}
+{% block title %}ToDo & Co - Update {{ userToUpdate.username }}{% endblock %}
 
 {% block body %}
-
 <div class="mt-4">
   {{ form_start(updateUserForm) }}
-  <h1 class="bold-txt-med">Modifier {{ app.user.username }}</h1>
+  <h1 class="bold-txt-med">Modifier {{ userToUpdate.username }}</h1>
   <div class="d-flex flex-column justify-content-center">
     <div class="mt-4 bold-txt-med">
       {{ form_label(updateUserForm.username, 'Nom d\'utilisateur') }}

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{% block title %}Welcome!{% endblock %}</title>
+    <title>{% block title %}ToDo & Co{% endblock %}</title>
     <link rel="icon"
         href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
     {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
@@ -28,36 +28,46 @@
 
 <body>
     <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd;" id="navbar">
-      <div class="container-fluid">
-          <a class="navbar-brand" href="{{ path('home') }}">
-            <span class="navbar-title">ToDo List app</span>
-            <img src="{{ asset('images/logo.png') }}" width="50" height="40" class="d-inline-block align-top" alt="">
-          </a>
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{{ path('home') }}">
+                <span class="navbar-title">ToDo List app</span>
+                <img src="{{ asset('images/logo.png') }}" width="50" height="40" class="d-inline-block align-top"
+                    alt="">
+            </a>
 
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-              <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                  {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                      <li class="nav-item">
-                          <a class="nav-link" href="{{ path('update_user') }}">Paramètre</a>
-                      </li>
-                      <li class="nav-item">
-                          <a class="nav-link" href="{{ path('app_logout') }}" style="color: rgb(199, 83, 83);">Se déconnecter</a>
-                      </li>
-                  {% else %}
-                      <li class="nav-item">
-                          <a class="nav-link" href="{{ path('app_login') }}">Se connecter</a>
-                      </li>
-                      <li class="nav-item">
-                          <a class="nav-link" href="{{ path('app_register') }}">Créer un utilisateur</a>
-                      </li>
-                  {% endif %}
-              </ul>
-          </div>
-      </div>
-  </nav>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    {% if is_granted('ROLE_ADMIN') %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('list_user') }}">Liste des utilisateurs</a>
+                    </li>
+                    {% endif %}
+
+                    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('update_user') }}">Paramètre</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('app_logout') }}" style="color: rgb(199, 83, 83);">Se
+                            déconnecter</a>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('app_login') }}">Se connecter</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('app_register') }}">Créer un utilisateur</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
 
     <div class="container">
         {% block body %}{% endblock %}
