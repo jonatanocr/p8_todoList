@@ -18,9 +18,11 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class UserController extends AbstractController
 {
     #[Route('/register', name: 'app_register')]
-    public function register(Request $request, 
-    UserPasswordHasherInterface $userPasswordHasher, 
-    EntityManagerInterface $entityManager): Response
+    public function register(
+        Request $request,
+        UserPasswordHasherInterface $userPasswordHasher,
+        EntityManagerInterface $entityManager
+    ): Response
     {
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
@@ -34,7 +36,7 @@ class UserController extends AbstractController
                     $form->get('plainPassword')->getData()
                 )
             );
-
+            $user->setRoles(['ROLE_USER']);
             $entityManager->persist($user);
             $entityManager->flush();
 
@@ -47,12 +49,15 @@ class UserController extends AbstractController
     }
 
     #[Route('/user/update', name: 'update_user')]
-    public function update(Request $request, ManagerRegistry $doctrine, 
-    UserPasswordHasherInterface $userPasswordHasher): Response
+    public function update(
+        Request $request, ManagerRegistry $doctrine,
+        UserPasswordHasherInterface $userPasswordHasher
+    ): Response
     {
-        $entityManager = $doctrine->getManager();
         $user = $this->getUser();
-        $form = $this->createForm(UpdateUserType::class, $user);
+        $entityManager = $doctrine->getManager();
+        $formOptions = ['include_password' => true];
+        $form = $this->createForm(UpdateUserType::class, $user, $formOptions);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -68,7 +73,35 @@ class UserController extends AbstractController
         }
 
         return $this->render('user/update.html.twig', [
+            'updateUserForm' => $form, 
+            'formOptions' => $formOptions,
+        ]);
+    }
+
+    #[Route('/user/admin_update/{userId}', name: 'admin_update_user', defaults: ['userId' => 0])]
+    public function adminUpdate(
+        Request $request, ManagerRegistry $doctrine,
+        UserPasswordHasherInterface $userPasswordHasher, int $userId = 0
+    ): Response
+    {
+        $entityManager = $doctrine->getManager();
+        $user = $entityManager->getRepository(User::class)->find($userId);
+        
+        if (!$user) {
+            throw $this->createNotFoundException('No user found for id '.$userId);
+        }
+        
+        $formOptions = ['include_password' => false];
+        $form = $this->createForm(UpdateUserType::class, $user, $formOptions);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->flush();
+            return $this->redirectToRoute('home');
+        }
+
+        return $this->render('user/update.html.twig', [
             'updateUserForm' => $form,
+            'formOptions' => $formOptions,
         ]);
     }
 

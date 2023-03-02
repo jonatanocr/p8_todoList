@@ -27,6 +27,11 @@ class AppFixtures extends Fixture
                     $user, 'password'
                 )
             );
+            if ($i < 3) {
+                $user->setRoles(['ROLE_ADMIN']);
+            } else {
+                $user->setRoles(['ROLE_USER']);
+            }
             $manager->persist($user);
         }
 
