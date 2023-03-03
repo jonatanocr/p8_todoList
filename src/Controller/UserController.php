@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class UserController extends AbstractController
@@ -49,6 +50,7 @@ class UserController extends AbstractController
     }
 
     #[Route('/user/update', name: 'update_user')]
+    #[IsGranted('IS_AUTHENTICATED')]
     public function update(
         Request $request, ManagerRegistry $doctrine,
         UserPasswordHasherInterface $userPasswordHasher
@@ -80,6 +82,7 @@ class UserController extends AbstractController
     }
 
     #[Route('/user/admin_update/{userId}', name: 'admin_update_user', defaults: ['userId' => 0])]
+    #[IsGranted('ROLE_ADMIN')]
     public function adminUpdate(
         Request $request, ManagerRegistry $doctrine,
         UserPasswordHasherInterface $userPasswordHasher, int $userId = 0
@@ -108,6 +111,7 @@ class UserController extends AbstractController
     }
 
     #[Route('/user/delete', name: 'delete_user')]
+    #[IsGranted('IS_AUTHENTICATED')]
     public function delete(Request $request, ManagerRegistry $doctrine, Session $session): Response
     {
         $entityManager = $doctrine->getManager();
@@ -122,6 +126,7 @@ class UserController extends AbstractController
     }
 
     #[Route('/user/list', name: 'list_user')]
+    #[IsGranted('ROLE_ADMIN')]
     public function list(ManagerRegistry $doctrine): Response
     {
         $entityManager = $doctrine->getManager();
