@@ -50,13 +50,27 @@
     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
-        <div class="modal-body text-center">
-          Are you sure you want to delete your account ?
-        </div>
-        <div class="modal-footer justify-content-center">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No, I keep my account</button>
-          <a class="btn btn-danger" href="{{ path('delete_user') }}" role="button">Yes, delete my account</a>
-        </div>
+        {% if is_granted('ROLE_ADMIN') %}
+          <div class="modal-body text-center">
+            Êtes-vous sûr de vouloir supprimer le compte {{ userToUpdate.username }} ?
+          </div>
+          <div class="modal-footer justify-content-center">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Non, ne pas supprimer {{ userToUpdate.username }} </button>
+            <a class="btn btn-danger" href="{{ path('delete_user', { 'userId': userToUpdate.id}) }}" role="button">
+              Oui, supprimer {{ userToUpdate.username }}
+            </a>
+          </div>
+        {% else %}
+          <div class="modal-body text-center">
+            Êtes-vous sûr de vouloir supprimer le compte ?
+          </div>
+          <div class="modal-footer justify-content-center">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Non, je garde mon compte</button>
+            <a class="btn btn-danger" href="{{ path('delete_user', { 'userId': userToUpdate.id}) }}" role="button">
+              Oui, supprimer mon compte.
+            </a>
+          </div>
+        {% endif %}
       </div>
     </div>
   </div>

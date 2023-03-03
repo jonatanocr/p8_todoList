@@ -89,12 +89,7 @@ class UserController extends AbstractController
     ): Response
     {
         $entityManager = $doctrine->getManager();
-        $user = $entityManager->getRepository(User::class)->find($userId);
-        
-        if (!$user) {
-            throw $this->createNotFoundException('No user found for id '.$userId);
-        }
-        
+        $user = $entityManager->getRepository(User::class)->find($userId);        
         $formOptions = ['include_password' => false];
         $form = $this->createForm(UpdateUserType::class, $user, $formOptions);
         $form->handleRequest($request);
@@ -110,19 +105,29 @@ class UserController extends AbstractController
         ]);
     }
 
-    #[Route('/user/delete', name: 'delete_user')]
+    #[Route('/user/delete/{userId}', name: 'delete_user')]
     #[IsGranted('IS_AUTHENTICATED')]
-    public function delete(Request $request, ManagerRegistry $doctrine, Session $session): Response
+    public function delete(Request $request, ManagerRegistry $doctrine, 
+    Session $session, int $userId): Response
     {
         $entityManager = $doctrine->getManager();
-        $user = $this->getUser();
-
-        $session = new Session();
-        $session->invalidate();
-        $entityManager->remove($user);
-        $entityManager->flush();
-        return $this->redirectToRoute('app_login');
-
+        $userLogged = $this->getUser();
+        if($userLogged->getId() === $userId) {
+            $session = new Session();
+            $session->invalidate();
+            $entityManager->remove($userLogged);
+            $entityManager->flush();
+            return $this->redirectToRoute('app_login');
+        } elseif ($this->isGranted('ROLE_ADMIN')) {
+            $userToDelete = $entityManager->getRepository(User::class)->find($userId);
+            $entityManager->remove($userToDelete);
+            $entityManager->flush();
+            return $this->redirectToRoute('list_user');
+        } else {
+            $session = new Session();
+            $session->invalidate();
+            return $this->redirectToRoute('app_login');
+        }
     }
 
     #[Route('/user/list', name: 'list_user')]
