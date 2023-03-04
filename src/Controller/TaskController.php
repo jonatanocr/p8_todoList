@@ -41,4 +41,15 @@ class TaskController extends AbstractController
         ]);
     }
 
+    #[Route('/list', name: 'list_task')]
+    #[IsGranted('IS_AUTHENTICATED')]
+    public function list(ManagerRegistry $doctrine): Response
+    {
+        $entityManager = $doctrine->getManager();
+        $tasks = $entityManager->getRepository(Task::class)->findAll();
+        return $this->render('task/list.html.twig', [
+            'tasks' => $tasks,
+        ]);
+    }
+
 }

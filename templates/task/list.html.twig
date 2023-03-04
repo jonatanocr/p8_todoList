@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ToDo & Co - Task list{% endblock %}
+
+{% block body %}
+
+<div class="d-flex justify-content-center">
+  <img src="{{ asset('images/banner.png') }}" width="500" height="400" class="" alt="">
+</div>
+
+<div class="container mt-4">
+  <h1 class="bold-txt-med">Liste des tâches</h1>
+
+  {% for task in tasks %}
+  {% if loop.index == 1 or (loop.index-1)%3 == 0 %}
+  <div class="row justify-content-center task_row">
+    {% endif %}
+    <div class="col-sm mb-4">
+      <div class="card" style="width: 18rem;">
+        <div class="card-body">
+          <h5 class="card-title">{{ task.title }}</h5>
+          <p class="card-text">{{ task.content }}</p>
+        </div>
+      </div>
+    </div>
+    {% if loop.index%3 == 0 %}
+  </div>
+  {% endif %}
+  {% endfor %}
+
+</div>
+
+{% endblock %}
