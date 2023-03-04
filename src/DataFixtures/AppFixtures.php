@@ -18,7 +18,7 @@ class AppFixtures extends Fixture
 
     public function load(ObjectManager $manager): void
     {
-        for ($i =1; $i < 10; $i++) {
+        for ($i = 0; $i < 10; $i++) {
             $user = new User();
             $user->setEmail('user' . $i . '@gmail.com');
             $user->setUsername('user' . $i);
