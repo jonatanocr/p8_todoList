@@ -2,8 +2,11 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Task;
 use App\Entity\User;
+use \DateTimeImmutable;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
@@ -11,30 +14,49 @@ class AppFixtures extends Fixture
 {
     private UserPasswordHasherInterface $hasher;
 
-    public function __construct(UserPasswordHasherInterface $hasher)
+    public function __construct(UserPasswordHasherInterface $hasher, ManagerRegistry $doctrine)
     {
         $this->hasher = $hasher;
+        $this->doctrine = $doctrine;
     }
 
     public function load(ObjectManager $manager): void
     {
         for ($i = 0; $i < 10; $i++) {
-            $user = new User();
-            $user->setEmail('user' . $i . '@gmail.com');
-            $user->setUsername('user' . $i);
-            $user->setPassword(
+            ${"user$i"} = new User();
+            if ($i === 0) {
+                ${"user$i"}->setEmail('anonyme@gmail.com');
+                ${"user$i"}->setUsername('anonyme');
+            } else {
+                ${"user$i"}->setEmail('user' . $i . '@gmail.com');
+                ${"user$i"}->setUsername('user' . $i);
+            }
+            ${"user$i"}->setPassword(
                 $this->hasher->hashPassword(
-                    $user, 'password'
+                    ${"user$i"}, 'password'
                 )
             );
             if ($i < 3) {
-                $user->setRoles(['ROLE_ADMIN']);
+                ${"user$i"}->setRoles(['ROLE_ADMIN']);
             } else {
-                $user->setRoles(['ROLE_USER']);
+                ${"user$i"}->setRoles(['ROLE_USER']);
             }
-            $manager->persist($user);
+            $manager->persist( ${"user$i"});
         }
 
+        $now = new DateTimeImmutable();
+        for ($i = 1; $i < 10; $i++) {
+            $randUser = rand(0, 9);
+            $author = ${"user$randUser"};
+            $task = new Task();
+            $task->setCreatedAt($now);
+            $task->setUpdatedAt($now);
+            $task->setTitle('Title ' . $i);
+            $task->setContent('Content task ' . $i);
+            $task->setAuthor($author);
+            $manager->persist($task);
+        }
         $manager->flush();
+
     }
 }
