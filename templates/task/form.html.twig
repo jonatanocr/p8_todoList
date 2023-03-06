@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+{% if action == 'create' %}
+ToDo & Co - Create task
+{% else %}
+ToDo & Co - Update task
+{% endif %}
+{% endblock %}
+
+{% block body %}
+<div class="d-flex justify-content-center">
+  <img src="{{ asset('images/banner.png') }}" width="500" height="400" class="" alt="">
+</div>
+
+<div class="mt-4">
+  {{ form_start(taskForm) }}
+  {% if action == 'create' %}
+  <h1 class="bold-txt-med">Créer une tâche</h1>
+  {% else %}
+  <h1 class="bold-txt-med">Modifier une tâche</h1>
+  {% endif %}
+  <div class="d-flex flex-column justify-content-center">
+    <div class="mt-4 bold-txt-med">
+      {{ form_label(taskForm.title, 'Titre') }}
+      {{ form_row(taskForm.title, {'attr': {'class': 'task_input'}}) }}
+    </div>
+    <div class="mt-4 bold-txt-med">
+      {{ form_label(taskForm.content, 'Détail') }}
+      {{ form_row(taskForm.content, {'attr': {'class': 'task_input'}}) }}
+    </div>
+    <div class="mt-4 d-flex" id="register_submit_div">
+      {% if action == 'create' %}
+      <button type="submit" class="btn btn-success">Ajouter</button>
+      {% else %}
+      <button type="submit" class="btn btn-success">Modifier</button>
+      {% endif %}
+    </div>
+  </div>
+  {{ form_end(taskForm) }}
+
+</div>
+
+{% endblock %}

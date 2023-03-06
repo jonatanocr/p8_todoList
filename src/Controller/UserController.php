@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\RegistrationFormType;
-use App\Form\UpdateUserType;
+use App\Form\UpdateUserFormType;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -14,7 +14,6 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
-use Symfony\Contracts\Translation\TranslatorInterface;
 
 class UserController extends AbstractController
 {
@@ -59,7 +58,7 @@ class UserController extends AbstractController
         $user = $this->getUser();
         $entityManager = $doctrine->getManager();
         $formOptions = ['include_password' => true];
-        $form = $this->createForm(UpdateUserType::class, $user, $formOptions);
+        $form = $this->createForm(UpdateUserFormType::class, $user, $formOptions);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -91,7 +90,7 @@ class UserController extends AbstractController
         $entityManager = $doctrine->getManager();
         $user = $entityManager->getRepository(User::class)->find($userId);        
         $formOptions = ['include_password' => false];
-        $form = $this->createForm(UpdateUserType::class, $user, $formOptions);
+        $form = $this->createForm(UpdateUserFormType::class, $user, $formOptions);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();

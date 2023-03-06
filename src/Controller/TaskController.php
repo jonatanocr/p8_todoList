@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Task;
 use \DateTimeImmutable;
-use App\Form\CreateTaskFormType;
+use App\Form\TaskFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,7 +22,7 @@ class TaskController extends AbstractController
     {
         $task = new Task();
         $entityManager = $doctrine->getManager();
-        $form = $this->createForm(CreateTaskFormType::class, $task);
+        $form = $this->createForm(TaskFormType::class, $task);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -33,11 +33,12 @@ class TaskController extends AbstractController
             $task->setAuthor($user = $this->getUser());
             $entityManager->persist($task);
             $entityManager->flush();
-            return $this->redirectToRoute('home');
+            return $this->redirectToRoute('list_task');
         }
 
-        return $this->render('task/create.html.twig', [
-            'createTaskForm' => $form,
+        return $this->render('task/form.html.twig', [
+            'taskForm' => $form,
+            'action' => 'create',
         ]);
     }
 
@@ -49,6 +50,28 @@ class TaskController extends AbstractController
         $tasks = $entityManager->getRepository(Task::class)->findAll();
         return $this->render('task/list.html.twig', [
             'tasks' => $tasks,
+        ]);
+    }
+
+    #[Route('/update/{taskId}', name: 'update_task')]
+    #[IsGranted('IS_AUTHENTICATED')]
+    public function update(
+        Request $request, ManagerRegistry $doctrine,
+        int $taskId = 0
+    ): Response
+    {
+        $entityManager = $doctrine->getManager();
+        $task = $entityManager->getRepository(Task::class)->find($taskId);        
+        $form = $this->createForm(TaskFormType::class, $task);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->flush();
+            return $this->redirectToRoute('list_task');
+        }
+
+        return $this->render('task/form.html.twig', [
+            'taskForm' => $form,
+            'action' => 'update',
         ]);
     }
 
