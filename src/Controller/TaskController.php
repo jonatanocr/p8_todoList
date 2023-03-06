@@ -65,6 +65,8 @@ class TaskController extends AbstractController
         $form = $this->createForm(TaskFormType::class, $task);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            $now = new DateTimeImmutable();
+            $task->setUpdatedAt($now);
             $entityManager->flush();
             return $this->redirectToRoute('list_task');
         }
@@ -73,6 +75,18 @@ class TaskController extends AbstractController
             'taskForm' => $form,
             'action' => 'update',
         ]);
+    }
+
+    #[Route('/delete/{taskId}', name: 'delete_task')]
+    #[IsGranted('IS_AUTHENTICATED')]
+    public function delete(Request $request, ManagerRegistry $doctrine, 
+    int $taskId): Response
+    {
+        $entityManager = $doctrine->getManager();
+        $task = $entityManager->getRepository(Task::class)->find($taskId);  
+        $entityManager->remove($task);
+        $entityManager->flush();
+        return $this->redirectToRoute('list_task');
     }
 
 }

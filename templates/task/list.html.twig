@@ -19,7 +19,7 @@
   <div class="row justify-content-center task_row">
     {% endif %}
     <div class="col-sm mb-4">
-      <div class="card" style="width: 18rem;">
+      <div class="card mb-1" style="width: 18rem;">
         <div class="card-body">
           <h5 class="card-title">
             <a class="task_title" href="{{ path('update_task', { 'taskId': task.id}) }}">{{ task.title }}</a>
@@ -27,6 +27,10 @@
           <p class="card-text">{{ task.content }}</p>
         </div>
       </div>
+      {% if is_granted('ROLE_ADMIN') or app.user.id == task.author.id %}
+      <a class="btn btn-danger" href="{{ path('delete_task', { 'taskId': task.id}) }}" role="button">Supprimer</a>
+      {% endif %}
+
     </div>
     {% if loop.index%3 == 0 %}
   </div>

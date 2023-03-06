@@ -1,6 +1,7 @@
-body, body * {
+body,
+body * {
     font-family: 'Roboto', sans-serif !important;
-    color: rgb(61,43,31);
+    color: rgb(61, 43, 31);
 }
 
 .navbar-title {
@@ -9,14 +10,17 @@ body, body * {
 }
 
 .bold-txt {
-    font-weight:700;
+    font-weight: 700;
 }
 
 .bold-txt-med {
-    font-weight:500;
+    font-weight: 500;
 }
 
-.btn-success, .btn-success:hover, .btn-success:active, .btn-success:visited {
+.btn-success,
+.btn-success:hover,
+.btn-success:active,
+.btn-success:visited {
     background-color: rgb(24, 161, 24) !important;
 }
 
@@ -25,17 +29,20 @@ body, body * {
 }
 
 h1 {
-	margin-left:2%;
+    margin-left: 2%;
 }
 
-input {
+input,
+textarea {
     border: 1px solid rgb(219, 209, 209);
     border-radius: 4px;
+    width: 90%;
 }
 
-input:focus {
+input:focus,
+textarea:focus {
     outline: none !important;
-    border:1px solid lightblue;
+    border: 1px solid lightblue;
     box-shadow: 0 0 5px #719ECE;
 }
 
@@ -56,4 +63,25 @@ input:focus {
     font-size: 2em;
     font-weight: 500;
     margin-top: 2em;
+}
+
+.usersListTopRow {
+    font-weight: 500;
+}
+
+.usersListRow {
+    border-bottom: 1px solid gray;
+    padding: 0.8em;
+}
+
+.w10 {
+    width: 10%;
+}
+
+.w20 {
+    width: 20%;
+}
+
+.w35 {
+    width: 35%;
 }
