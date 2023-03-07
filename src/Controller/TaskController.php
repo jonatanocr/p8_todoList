@@ -28,6 +28,7 @@ class TaskController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $now = new DateTimeImmutable();
             $task = $form->getData();
+            $task->setIsDone(false);
             $task->setCreatedAt($now);
             $task->setUpdatedAt($now);
             $task->setAuthor($user = $this->getUser());
@@ -75,6 +76,23 @@ class TaskController extends AbstractController
             'taskForm' => $form,
             'action' => 'update',
         ]);
+    }
+
+    #[Route('/status/{taskId}/{taskStatus}', name: 'status_task')]
+    #[IsGranted('IS_AUTHENTICATED')]
+    public function updateStatus(
+        ManagerRegistry $doctrine,
+        int $taskId, int $taskStatus
+    ): Response
+    {
+        $entityManager = $doctrine->getManager();
+        $task = $entityManager->getRepository(Task::class)->find($taskId);
+        $taskStatus = ($taskStatus===1?true:false);
+        $task->setIsDone($taskStatus);
+        $now = new DateTimeImmutable();
+        $task->setUpdatedAt($now);
+        $entityManager->flush();
+        return $this->redirectToRoute('list_task');
     }
 
     #[Route('/delete/{taskId}', name: 'delete_task')]

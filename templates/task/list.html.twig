@@ -31,6 +31,13 @@
       <a class="btn btn-danger" href="{{ path('delete_task', { 'taskId': task.id}) }}" role="button">Supprimer</a>
       {% endif %}
 
+      {% if task.isDone == true %}
+      <a class="btn btn-success" href="{{ path('status_task', { 'taskId': task.id, 'taskStatus': 0 }) }}" role="button">Marquer non terminée</a>
+      {% else %}
+      <a class="btn btn-success" href="{{ path('status_task', { 'taskId': task.id, 'taskStatus': 1 }) }}" role="button">Marquer comme
+        faite</a>
+      {% endif %}
+
     </div>
     {% if loop.index%3 == 0 %}
   </div>

@@ -85,3 +85,8 @@ textarea:focus {
 .w35 {
     width: 35%;
 }
+
+.task_title {
+    text-decoration: none;
+    color: #719ECE;
+}
