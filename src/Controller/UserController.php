@@ -42,7 +42,7 @@ class UserController extends AbstractController
             $user->setRoles(['ROLE_USER']);
             $entityManager->persist($user);
             $entityManager->flush();
-
+            $this->addFlash('success', 'Le compte utilisateur est créé.');
             return $this->redirectToRoute('home');
         }
 

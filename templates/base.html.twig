@@ -70,6 +70,11 @@
     </nav>
 
     <div class="container">
+        {% for message in app.flashes('success') %}
+        <div class="alert alert-success mt-4">
+            {{ message }}
+        </div>
+        {% endfor %}
         {% block body %}{% endblock %}
     </div>
 </body>

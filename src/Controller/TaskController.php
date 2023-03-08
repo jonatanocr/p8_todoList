@@ -34,6 +34,7 @@ class TaskController extends AbstractController
             $task->setAuthor($user = $this->getUser());
             $entityManager->persist($task);
             $entityManager->flush();
+            $this->addFlash('success', 'La tâche a bien été ajoutée.');
             return $this->redirectToRoute('list_task');
         }
 
@@ -69,6 +70,7 @@ class TaskController extends AbstractController
             $now = new DateTimeImmutable();
             $task->setUpdatedAt($now);
             $entityManager->flush();
+            $this->addFlash('success', 'La tâche a bien été mise à jour.');
             return $this->redirectToRoute('list_task');
         }
 
@@ -92,6 +94,11 @@ class TaskController extends AbstractController
         $now = new DateTimeImmutable();
         $task->setUpdatedAt($now);
         $entityManager->flush();
+        if ($taskStatus === true) {
+            $this->addFlash('success', 'La tâche' . $task->getTitle() . ' a bien été marquée comme faite.');
+        } else {
+            $this->addFlash('success', 'La tâche' . $task->getTitle() . ' a bien été marquée comme à faire.');
+        }
         return $this->redirectToRoute('list_task');
     }
 
