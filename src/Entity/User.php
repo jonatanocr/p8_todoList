@@ -32,7 +32,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $password = null;
 
     #[ORM\Column(length: 25, unique: true)]
-    private ?string $Username = null;
+    private ?string $username = null;
 
     #[ORM\OneToMany(mappedBy: 'author', targetEntity: Task::class)]
     private Collection $tasks;
@@ -114,12 +114,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getUsername(): ?string
     {
-        return $this->Username;
+        return $this->username;
     }
 
-    public function setUsername(string $Username): self
+    public function setUsername(string $username): self
     {
-        $this->Username = $Username;
+        $this->username = $username;
 
         return $this;
     }

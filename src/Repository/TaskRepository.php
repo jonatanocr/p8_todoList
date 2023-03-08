@@ -39,6 +39,16 @@ class TaskRepository extends ServiceEntityRepository
         }
     }
 
+    public function findAllTasksByAuthor($authorId)
+    {
+        return $this->createQueryBuilder('t')
+            ->andWhere('t.author = :author')
+            ->setParameter('author', $authorId)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
 //    /**
 //     * @return Task[] Returns an array of Task objects
 //     */

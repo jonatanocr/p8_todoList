@@ -2,7 +2,10 @@
 
 namespace App\Controller;
 
+use \DateTimeImmutable;
 use App\Entity\User;
+use App\Entity\Task;
+use App\Repository\TaskRepository;
 use App\Form\RegistrationFormType;
 use App\Form\UpdateUserFormType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -74,7 +77,7 @@ class UserController extends AbstractController
         }
 
         return $this->render('user/update.html.twig', [
-            'updateUserForm' => $form, 
+            'updateUserForm' => $form,
             'formOptions' => $formOptions,
             'userToUpdate' => $user,
         ]);
@@ -88,7 +91,7 @@ class UserController extends AbstractController
     ): Response
     {
         $entityManager = $doctrine->getManager();
-        $user = $entityManager->getRepository(User::class)->find($userId);        
+        $user = $entityManager->getRepository(User::class)->find($userId);
         $formOptions = ['include_password' => false];
         $form = $this->createForm(UpdateUserFormType::class, $user, $formOptions);
         $form->handleRequest($request);
@@ -106,12 +109,24 @@ class UserController extends AbstractController
 
     #[Route('/user/delete/{userId}', name: 'delete_user')]
     #[IsGranted('IS_AUTHENTICATED')]
-    public function delete(Request $request, ManagerRegistry $doctrine, 
-    Session $session, int $userId): Response
+    public function delete(
+        Request $request, ManagerRegistry $doctrine,
+        Session $session, int $userId
+    ): Response
     {
         $entityManager = $doctrine->getManager();
         $userLogged = $this->getUser();
-        if($userLogged->getId() === $userId) {
+        // we attribute user's tasks to user anonyme
+        $userAnonyme = $entityManager->getRepository(User::class)->findOneBy(['username' => 'anonyme']);
+        $taskRepository = new TaskRepository($doctrine);
+        $tasks = $taskRepository->findAllTasksByAuthor($userId);
+        foreach ($tasks as $task) {
+            $task->setAuthor($userAnonyme);
+            $now = new DateTimeImmutable();
+            $task->setUpdatedAt($now);
+            $entityManager->flush();
+        }
+        if ($userLogged->getId() === $userId) {
             $session = new Session();
             $session->invalidate();
             $entityManager->remove($userLogged);
@@ -122,11 +137,10 @@ class UserController extends AbstractController
             $entityManager->remove($userToDelete);
             $entityManager->flush();
             return $this->redirectToRoute('list_user');
-        } else {
-            $session = new Session();
-            $session->invalidate();
-            return $this->redirectToRoute('app_login');
         }
+        $session = new Session();
+        $session->invalidate();    
+        return $this->redirectToRoute('app_login');        }
     }
 
     #[Route('/user/list', name: 'list_user')]
