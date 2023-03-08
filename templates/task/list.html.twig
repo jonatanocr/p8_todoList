@@ -21,8 +21,13 @@
     <div class="col-sm mb-4">
       <div class="card mb-1" style="width: 18rem;">
         <div class="card-body">
-          <h5 class="card-title">
+          <h5 class="card-title d-flex justify-content-between">
             <a class="task_title" href="{{ path('update_task', { 'taskId': task.id}) }}">{{ task.title }}</a>
+            {% if task.isDone == true %}
+            <span class="task_status_symbol task_done_symbol">&#10003;</span>
+            {% else %}
+            <span class="task_status_symbol task_undone_symbol">X</span>
+            {% endif %}
           </h5>
           <p class="card-text">{{ task.content }}</p>
         </div>

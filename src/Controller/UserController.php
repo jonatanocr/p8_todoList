@@ -140,7 +140,7 @@ class UserController extends AbstractController
         }
         $session = new Session();
         $session->invalidate();    
-        return $this->redirectToRoute('app_login');        }
+        return $this->redirectToRoute('app_login');
     }
 
     #[Route('/user/list', name: 'list_user')]

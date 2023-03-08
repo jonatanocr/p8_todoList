@@ -90,3 +90,19 @@ textarea:focus {
     text-decoration: none;
     color: #719ECE;
 }
+
+.card-title {
+    text-align: justify;
+}
+
+.task_done_symbol {
+    color: green;
+}
+
+.task_status_symbol {
+    font-size: 1.2em;
+}
+
+.task_undone_symbol {
+    color: red;
+}
