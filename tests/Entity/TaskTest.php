@@ -40,7 +40,7 @@ class TaskTest extends TestCase
 
     public function testTitle()
     {
-        $taskTitle = 'Some task title';
+        $taskTitle = "Some task title";
 
         $this->task->setTitle($taskTitle);
         $this->assertEquals($taskTitle, $this->task->getTitle());
@@ -48,7 +48,7 @@ class TaskTest extends TestCase
 
     public function testContent()
     {
-        $taskContent = 'Some task content';
+        $taskContent = "Some task content";
 
         $this->task->setContent($taskContent);
         $this->assertEquals($taskContent, $this->task->getContent());
