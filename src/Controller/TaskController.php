@@ -95,9 +95,9 @@ class TaskController extends AbstractController
         $task->setUpdatedAt($now);
         $entityManager->flush();
         if ($taskStatus === true) {
-            $this->addFlash('success', 'La tâche' . $task->getTitle() . ' a bien été marquée comme faite.');
+            $this->addFlash('success', 'La tâche ' . $task->getTitle() . ' a bien été marquée comme faite.');
         } else {
-            $this->addFlash('success', 'La tâche' . $task->getTitle() . ' a bien été marquée comme à faire.');
+            $this->addFlash('success', 'La tâche ' . $task->getTitle() . ' a bien été marquée comme à faire.');
         }
         return $this->redirectToRoute('list_task');
     }
@@ -111,6 +111,7 @@ class TaskController extends AbstractController
         $task = $entityManager->getRepository(Task::class)->find($taskId);  
         $entityManager->remove($task);
         $entityManager->flush();
+        $this->addFlash('success', 'La tâche a bien été supprimée.');
         return $this->redirectToRoute('list_task');
     }
 

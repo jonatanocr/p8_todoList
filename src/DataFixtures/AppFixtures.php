@@ -54,6 +54,11 @@ class AppFixtures extends Fixture
             $task->setTitle('Title ' . $i);
             $task->setContent('Content task ' . $i);
             $task->setAuthor($author);
+            if ($i < 5) {
+                $task->setIsDone(false);
+            } else {
+                $task->setIsDone(true);
+            }
             $manager->persist($task);
         }
         $manager->flush();
