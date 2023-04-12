@@ -30,7 +30,6 @@ class UserController extends AbstractController
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             // encode the plain password
             $user->setPassword(
@@ -73,6 +72,7 @@ class UserController extends AbstractController
                 )
             );
             $entityManager->flush();
+            $this->addFlash('success', 'Le compte utilisateur est modifié.');
             return $this->redirectToRoute('home');
         }
 
@@ -97,6 +97,7 @@ class UserController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
+            $this->addFlash('success', 'Le compte utilisateur est modifié.');
             return $this->redirectToRoute('home');
         }
 
@@ -136,6 +137,7 @@ class UserController extends AbstractController
             $userToDelete = $entityManager->getRepository(User::class)->find($userId);
             $entityManager->remove($userToDelete);
             $entityManager->flush();
+            $this->addFlash('success', 'Le compte utilisateur est supprimé.');
             return $this->redirectToRoute('list_user');
         }
         $session = new Session();
