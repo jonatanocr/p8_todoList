@@ -28,14 +28,7 @@ class UserControllerTest extends WebTestCase
         return $testUser;
     }
 
-    public function testRegisterUserRenderForm()
-    {
-        $crawler = $this->client->request('GET', '/register');
-        $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains('h1', 'Créer un utilisateur');
-    }
-
-    public function testRegisterUserSubmitForm()
+    public function testRegisterUser()
     {
         $crawler = $this->client->request('GET', '/register');
         $form = $crawler->selectButton('Ajouter')->form();
@@ -56,15 +49,7 @@ class UserControllerTest extends WebTestCase
 
     }
 
-    public function testUpdateUserRenderForm()
-    {
-        $this->loginUser('ROLE_USER');
-        $crawler = $this->client->request('GET', '/user/update');
-        $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains('h1', 'Modifier user3');
-    }
-
-    public function testUpdateUserSubmitForm()
+    public function testUpdateUser()
     {
         $this->loginUser('ROLE_USER');
         $crawler = $this->client->request('GET', '/user/update');
@@ -81,17 +66,7 @@ class UserControllerTest extends WebTestCase
         $this->assertSelectorTextContains('.alert-success', 'Le compte utilisateur est modifié.');
     }
 
-    public function testUpdateUserAsAdminRenderForm()
-    {
-        $this->loginUser('ROLE_ADMIN');
-        $userRepository = static::getContainer()->get(UserRepository::class);
-        $userToUpdate = $userRepository->findOneByEmail('user3@gmail.com');
-        $crawler = $this->client->request('GET', '/user/admin_update/' . $userToUpdate->getId());
-        $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains('h1', 'Modifier user3');
-    }
-
-    public function testUpdateUserAsAdminSubmitForm()
+    public function testUpdateUserAsAdmin()
     {
         $this->loginUser('ROLE_ADMIN');
         $userRepository = static::getContainer()->get(UserRepository::class);

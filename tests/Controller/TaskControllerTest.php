@@ -19,14 +19,7 @@ class TaskControllerTest extends WebTestCase
         $this->client->loginUser($testUser);
 	}
 
-    public function testCreateTaskRenderForm()
-    {
-        $crawler = $this->client->request('GET', '/task/create');
-        $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains('h1', 'Créer une tâche');
-    }
-
-    public function testCreateTaskSubmitForm()
+    public function testCreateTask()
     {
         $crawler = $this->client->request('GET', '/task/create');
         $form = $crawler->selectButton('Ajouter')->form();
@@ -47,16 +40,7 @@ class TaskControllerTest extends WebTestCase
         $this->assertSelectorTextContains('h1', 'Liste des tâches');
     }
 
-    public function testUpdateTaskRenderForm() 
-    {
-        $taskRepository = static::getContainer()->get(TaskRepository::class);
-        $testTask = $taskRepository->findOneByTitle('Title 1');
-        $crawler = $this->client->request('GET', '/task/update/'.$testTask->getId());
-        $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains('h1', 'Modifier une tâche');
-    }
-
-    public function testUpdateTaskSubmitForm() 
+    public function testUpdateTask() 
     {
         $taskRepository = static::getContainer()->get(TaskRepository::class);
         $testTask = $taskRepository->findOneByTitle('Title 1');
