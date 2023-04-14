@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ToDo & Co - Liste des utilisateurs{% endblock %}
+
+{% block body %}
+
+<div class="mt-4">
+
+    <h1 class="bold-txt-med">Liste des utilisateurs</h1>
+    <div class="d-flex flex-column justify-content-center mt-4">
+        <div class="d-flex flex-row usersListRow usersListTopRow">
+            <div class="w10">
+            id
+            </div>
+            <div class="w35">
+                Nom d'utilisateur
+            </div>
+            <div class="w35">
+                Email
+            </div>
+            <div class="w20" style="text-align: center;">
+                Actions
+            </div>
+        </div>
+        {% for user in users %}
+        <div class="d-flex flex-row usersListRow">
+            <div class="w10">
+                {{ user.id }}
+            </div>
+            <div class="w35">
+                {{ user.username }}
+            </div>
+            <div class="w35">
+                {{ user.email }}
+            </div>
+            <div class="w20" style="text-align: center;">
+                <a class="btn btn-success" href="{{ path('admin_update_user', { 'userId': user.id}) }}" role="button">Modifier</a>
+            </div>
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+{% endblock %}

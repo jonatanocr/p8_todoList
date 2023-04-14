@@ -1,0 +1,80 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ToDo & Co - Update {{ userToUpdate.username }}{% endblock %}
+
+{% block body %}
+<div class="mt-4">
+  {{ form_start(updateUserForm) }}
+  <h1 class="bold-txt-med">Modifier {{ userToUpdate.username }}</h1>
+  <div class="d-flex flex-column justify-content-center">
+    <div class="mt-4 bold-txt-med">
+      {{ form_label(updateUserForm.username, 'Nom d\'utilisateur') }}
+      {{ form_row(updateUserForm.username, {'attr': {'class': 'register_input'}}) }}
+    </div>
+    <div class="mt-4 bold-txt-med">
+      {{ form_label(updateUserForm.email, 'Adresse email') }}
+      {{ form_row(updateUserForm.email, {'attr': {'class': 'register_input'}}) }}
+    </div>
+    {% if formOptions.include_password == true %}
+    <div class="mt-4 bold-txt-med">
+      {{ form_label(updateUserForm.plainPassword, 'Tapez le mot de passe') }}
+      {{ form_row(updateUserForm.plainPassword.first, {'attr': {'class': 'register_input'}}) }}
+    </div>
+    <div class="mt-4 bold-txt-med">
+      {{ form_label(updateUserForm.plainPassword, 'Tapez le mot de passe à nouveau') }}
+      {{ form_row(updateUserForm.plainPassword.second, {'attr': {'class': 'register_input'}}) }}
+    </div>
+    {% endif %}
+    {% if is_granted('ROLE_ADMIN') %}
+    <div class="mt-4 bold-txt-med">
+      {{ form_label(updateUserForm.roles, 'Rôle utilisateur') }}
+      {{ form_row(updateUserForm.roles, {'attr': {'class': 'register_input'}}) }}
+    </div>
+    {% endif %}
+    <div class="mt-4 d-flex" id="register_submit_div">
+      <button type="submit" class="btn btn-success">Modifier</button>
+    </div>
+  </div>
+  {{ form_end(updateUserForm) }}
+
+  <!-- Button trigger modal -->
+  <div class="row justify-content-center mt-5 mb-5">
+    <button id="delete_account_btn" type="button" class="btn btn-outline-danger" data-bs-toggle="modal"
+      data-bs-target="#confirmDeleteModal">
+      Delete account
+    </button>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        {% if is_granted('ROLE_ADMIN') %}
+          <div class="modal-body text-center">
+            Êtes-vous sûr de vouloir supprimer le compte {{ userToUpdate.username }} ?
+          </div>
+          <div class="modal-footer justify-content-center">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Non, ne pas supprimer {{ userToUpdate.username }} </button>
+            <a class="btn btn-danger" href="{{ path('delete_user', { 'userId': userToUpdate.id}) }}" role="button">
+              Oui, supprimer {{ userToUpdate.username }}
+            </a>
+          </div>
+        {% else %}
+          <div class="modal-body text-center">
+            Êtes-vous sûr de vouloir supprimer le compte ?
+          </div>
+          <div class="modal-footer justify-content-center">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Non, je garde mon compte</button>
+            <a class="btn btn-danger" href="{{ path('delete_user', { 'userId': userToUpdate.id}) }}" role="button">
+              Oui, supprimer mon compte.
+            </a>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+</div>
+
+{% endblock %}

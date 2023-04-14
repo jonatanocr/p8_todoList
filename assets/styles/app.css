@@ -1,0 +1,108 @@
+body,
+body * {
+    font-family: 'Roboto', sans-serif !important;
+    color: rgb(61, 43, 31);
+}
+
+.navbar-title {
+    color: rgb(31, 147, 185);
+    padding-left: 2em;
+}
+
+.bold-txt {
+    font-weight: 700;
+}
+
+.bold-txt-med {
+    font-weight: 500;
+}
+
+.btn-success,
+.btn-success:hover,
+.btn-success:active,
+.btn-success:visited {
+    background-color: rgb(24, 161, 24) !important;
+}
+
+.btn {
+    font-size: 0.9em !important;
+}
+
+h1 {
+    margin-left: 2%;
+}
+
+input,
+textarea {
+    border: 1px solid rgb(219, 209, 209);
+    border-radius: 4px;
+    width: 90%;
+}
+
+input:focus,
+textarea:focus {
+    outline: none !important;
+    border: 1px solid lightblue;
+    box-shadow: 0 0 5px #719ECE;
+}
+
+.register_input {
+    width: 90%;
+}
+
+#register_submit_div {
+    width: 90%;
+    justify-content: end;
+}
+
+#delete_account_btn {
+    width: 10em;
+}
+
+#homepage_text {
+    font-size: 2em;
+    font-weight: 500;
+    margin-top: 2em;
+}
+
+.usersListTopRow {
+    font-weight: 500;
+}
+
+.usersListRow {
+    border-bottom: 1px solid gray;
+    padding: 0.8em;
+}
+
+.w10 {
+    width: 10%;
+}
+
+.w20 {
+    width: 20%;
+}
+
+.w35 {
+    width: 35%;
+}
+
+.task_title {
+    text-decoration: none;
+    color: #719ECE;
+}
+
+.card-title {
+    text-align: justify;
+}
+
+.task_done_symbol {
+    color: green;
+}
+
+.task_status_symbol {
+    font-size: 1.2em;
+}
+
+.task_undone_symbol {
+    color: red;
+}

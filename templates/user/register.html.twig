@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ToDo & Co - Register{% endblock %}
+
+{% block body %}
+
+<div class="mt-4">
+    {{ form_start(registrationForm) }}
+    <h1 class="bold-txt-med">Créer un utilisateur</h1>
+    <div class="d-flex flex-column justify-content-center">
+        <div class="mt-4 bold-txt-med">
+            {{ form_label(registrationForm.username, 'Nom d\'utilisateur') }}
+            {{ form_row(registrationForm.username, {'attr': {'class': 'register_input'}}) }}
+        </div>
+        <div class="mt-4 bold-txt-med">
+            {{ form_label(registrationForm.email, 'Adresse email') }}
+            {{ form_row(registrationForm.email, {'attr': {'class': 'register_input'}}) }}
+        </div>
+        <div class="mt-4 bold-txt-med">
+            {{ form_label(registrationForm.plainPassword, 'Tapez le mot de passe') }}
+            {{ form_row(registrationForm.plainPassword.first, {'attr': {'class': 'register_input'}}) }}
+        </div>
+        <div class="mt-4 bold-txt-med">
+            {{ form_label(registrationForm.plainPassword, 'Tapez le mot de passe à nouveau') }}
+            {{ form_row(registrationForm.plainPassword.second, {'attr': {'class': 'register_input'}}) }}
+        </div>
+        <div class="mt-4 d-flex" id="register_submit_div">
+            <button type="submit" class="btn btn-success">Ajouter</button>
+        </div>
+    </div>
+    
+
+    {{ form_end(registrationForm) }}
+</div>
+
+{% endblock %}
