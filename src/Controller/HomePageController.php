@@ -13,5 +13,4 @@ class HomePageController extends AbstractController
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         return $this->render('homepage/index.html.twig');
     }
-
 }

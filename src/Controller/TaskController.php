@@ -84,7 +84,8 @@ class TaskController extends AbstractController
     #[IsGranted('IS_AUTHENTICATED')]
     public function updateStatus(
         ManagerRegistry $doctrine,
-        int $taskId, int $taskStatus
+        int $taskId,
+        int $taskStatus
     ): Response {
         $entityManager = $doctrine->getManager();
         $task = $entityManager->getRepository(Task::class)->find($taskId);
