@@ -33,7 +33,8 @@ class AppFixtures extends Fixture
             }
             ${"user$i"}->setPassword(
                 $this->hasher->hashPassword(
-                    ${"user$i"}, 'password'
+                    ${"user$i"},
+                    'password'
                 )
             );
             if ($i < 3) {
@@ -41,7 +42,7 @@ class AppFixtures extends Fixture
             } else {
                 ${"user$i"}->setRoles(['ROLE_USER']);
             }
-            $manager->persist( ${"user$i"});
+            $manager->persist(${"user$i"});
         }
 
         $now = new DateTimeImmutable();
@@ -62,6 +63,5 @@ class AppFixtures extends Fixture
             $manager->persist($task);
         }
         $manager->flush();
-
     }
 }
