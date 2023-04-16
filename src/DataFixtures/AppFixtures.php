@@ -33,7 +33,7 @@ class AppFixtures extends Fixture
             }
             ${"user$i"}->setPassword(
                 $this->hasher->hashPassword(
-                    ${"user$i"}, 
+                    ${"user$i"},
                     'password'
                 )
             );

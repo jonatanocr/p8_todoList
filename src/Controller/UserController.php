@@ -52,7 +52,7 @@ class UserController extends AbstractController
     #[Route('/user/update', name: 'update_user')]
     #[IsGranted('IS_AUTHENTICATED')]
     public function update(
-        Request $request, 
+        Request $request,
         ManagerRegistry $doctrine,
         UserPasswordHasherInterface $userPasswordHasher
     ): Response {
@@ -85,7 +85,7 @@ class UserController extends AbstractController
     #[Route('/user/admin_update/{userId}', name: 'admin_update_user', defaults: ['userId' => 0])]
     #[IsGranted('ROLE_ADMIN')]
     public function adminUpdate(
-        Request $request, 
+        Request $request,
         ManagerRegistry $doctrine,
         UserPasswordHasherInterface $userPasswordHasher,
         int $userId = 0
@@ -113,7 +113,7 @@ class UserController extends AbstractController
     public function delete(
         Request $request, 
         ManagerRegistry $doctrine,
-        Session $session, 
+        Session $session,
         int $userId
     ): Response {
         $entityManager = $doctrine->getManager();
