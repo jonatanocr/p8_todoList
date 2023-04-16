@@ -25,8 +25,7 @@ class UserController extends AbstractController
         Request $request,
         UserPasswordHasherInterface $userPasswordHasher,
         EntityManagerInterface $entityManager
-    ): Response
-    {
+    ): Response {
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
@@ -55,8 +54,7 @@ class UserController extends AbstractController
     public function update(
         Request $request, ManagerRegistry $doctrine,
         UserPasswordHasherInterface $userPasswordHasher
-    ): Response
-    {
+    ): Response {
         $user = $this->getUser();
         $entityManager = $doctrine->getManager();
         $formOptions = ['include_password' => true];
@@ -87,9 +85,9 @@ class UserController extends AbstractController
     #[IsGranted('ROLE_ADMIN')]
     public function adminUpdate(
         Request $request, ManagerRegistry $doctrine,
-        UserPasswordHasherInterface $userPasswordHasher, int $userId = 0
-    ): Response
-    {
+        UserPasswordHasherInterface $userPasswordHasher,
+        int $userId = 0
+    ): Response {
         $entityManager = $doctrine->getManager();
         $user = $entityManager->getRepository(User::class)->find($userId);
         $formOptions = ['include_password' => false];
@@ -113,8 +111,7 @@ class UserController extends AbstractController
     public function delete(
         Request $request, ManagerRegistry $doctrine,
         Session $session, int $userId
-    ): Response
-    {
+    ): Response {
         $entityManager = $doctrine->getManager();
         $userLogged = $this->getUser();
         // we attribute user's tasks to user anonyme
@@ -141,7 +138,7 @@ class UserController extends AbstractController
             return $this->redirectToRoute('list_user');
         }
         $session = new Session();
-        $session->invalidate();    
+        $session->invalidate();
         return $this->redirectToRoute('app_login');
     }
 
