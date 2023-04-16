@@ -58,12 +58,12 @@ class TaskController extends AbstractController
     #[Route('/update/{taskId}', name: 'update_task')]
     #[IsGranted('IS_AUTHENTICATED')]
     public function update(
-        Request $request, ManagerRegistry $doctrine,
+        Request $request,
+        ManagerRegistry $doctrine,
         int $taskId = 0
-    ): Response
-    {
+    ): Response {
         $entityManager = $doctrine->getManager();
-        $task = $entityManager->getRepository(Task::class)->find($taskId);        
+        $task = $entityManager->getRepository(Task::class)->find($taskId);
         $form = $this->createForm(TaskFormType::class, $task);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -85,11 +85,10 @@ class TaskController extends AbstractController
     public function updateStatus(
         ManagerRegistry $doctrine,
         int $taskId, int $taskStatus
-    ): Response
-    {
+    ): Response {
         $entityManager = $doctrine->getManager();
         $task = $entityManager->getRepository(Task::class)->find($taskId);
-        $taskStatus = ($taskStatus===1?true:false);
+        $taskStatus = ($taskStatus === 1 ? true : false);
         $task->setIsDone($taskStatus);
         $now = new DateTimeImmutable();
         $task->setUpdatedAt($now);
@@ -104,15 +103,16 @@ class TaskController extends AbstractController
 
     #[Route('/delete/{taskId}', name: 'delete_task')]
     #[IsGranted('IS_AUTHENTICATED')]
-    public function delete(Request $request, ManagerRegistry $doctrine, 
-    int $taskId): Response
-    {
+    public function delete(
+        Request $request,
+        ManagerRegistry $doctrine,
+        int $taskId
+    ): Response {
         $entityManager = $doctrine->getManager();
-        $task = $entityManager->getRepository(Task::class)->find($taskId);  
+        $task = $entityManager->getRepository(Task::class)->find($taskId);
         $entityManager->remove($task);
         $entityManager->flush();
         $this->addFlash('success', 'La tâche a bien été supprimée.');
         return $this->redirectToRoute('list_task');
     }
-
 }
