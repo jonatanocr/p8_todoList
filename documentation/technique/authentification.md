@@ -72,7 +72,7 @@ when@test:
 Afin de mettre en place l'authentification des utilisateurs, ceux-ci doivent être liés à un objet user. Pour créer la classe **User** sous **Symfony**, nous pouvons utiliser le bundle **MakerBundle** et lancer la commande :
 `php bin/console make:user` 
 
-![make:user terminal](makeuser.png)
+![make:user terminal](/documentation/images/makeuser.png)
 
 
 La classe **User** de l'application implémentant les interfaces **UserInterface** et **PasswordAuthenticatedUserInterface** :
@@ -173,7 +173,7 @@ class SecurityController extends AbstractController
 ```
 Le rôle du contrôler de login est seulement de générer la page de formulaire de login. La vérification du nom d'utilisateur et du mot de passe est géré par le module de sécurité de Symfony `Symfony\Component\Security\Http\Authentication\AuthenticationUtils`.
 
-La partie **Firewall** du fichier de configuration `security.yaml`. Cette partie gère la partie authentification en définissant comment les utilisateurs vont être authentifiés (formulaire de login dans le cas de l'application ToDo liste).
+La partie **Firewall** du fichier de configuration `security.yaml` gère l'authentification en définissant comment les utilisateurs vont être authentifiés (formulaire de login dans le cas de l'application ToDo liste).
 ```
 security:
 
