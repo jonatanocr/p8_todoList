@@ -1,5 +1,7 @@
 ## ToDo & Co
 Todo application
+Symfony 6.2
+PHP 8.2
 
 ## Installation
 
